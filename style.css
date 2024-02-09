@@ -1,0 +1,40 @@
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.WeatherApp {
+    margin: 20px;
+}
+
+.WeatherApp input {
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.WeatherApp button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.WeatherApp button:hover {
+    background-color: #0056b3;
+}
+
+.WeatherApp .weather-info {
+    margin-top: 20px;
+}
+
+.WeatherApp .weather-info h2 {
+    margin-bottom: 10px;
+}
+
+.WeatherApp .weather-info p {
+    margin: 5px 0;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="WeatherApp">
+        <div class="Weather-content">
+            <h1>Weather</h1>
+            <div id="Weather"></div>
+        </div>
+    </section>
+
+    <script type="text/babel">
+      const { useState } = React;
+  
+      function WeatherApp() {
+          const [text, setText] = useState("chennai");
+          const [temp, setTemp] = useState(0);
+          const [city, setCity] = useState("chennai");
+          const [country, setCountry] = useState("IN");
+          const [lat, setLat] = useState(0);
+          const [lon, setLon] = useState(0);
+          const [wind, setWind] = useState(0);
+          const [humidity, setHumidity] = useState(0);
+  
+          const WeatherDetails = ({ temp, city, country, lat, lon, wind, humidity }) => {
+              return (
+                  <>
+                      <div>{temp}°C</div>
+                      <div>{city}</div>
+                      <div>{country}</div>
+                      <div>Latitude: {lat}</div>
+                      <div>Longitude: {lon}</div>
+                      <div>{wind} wind</div>
+                      <div>{humidity} humidity</div>
+                  </>
+              );
+          }
+  
+          const search = async () => {
+              let api_key = '874d9dfd76124467d9924ffeafb85c2b'; // Replace with your OpenWeatherMap API key
+              let url = `https://api.openweathermap.org/data/2.5/weather?q=${text}&appid=${api_key}&units=Metric`;
+              try {
+                  let res = await fetch(url);
+                  let data = await res.json();
+                  console.log(data);
+                  setTemp(data.main.temp);
+                  setCity(data.name);
+                  setCountry(data.sys.country);
+                  setLat(data.coord.lat);
+                  setLon(data.coord.lon);
+                  setWind(data.wind.speed);
+                  setHumidity(data.main.humidity);
+              } catch (error) {
+                  console.log("An error:", error.message);
+              }
+          }
+  
+          const handleSubmit = (event) => {
+              event.preventDefault();
+              search();
+          }
+  
+          const handleChange = (event) => {
+              setText(event.target.value);
+          }
+  
+          return (
+              <div>
+                  <form onSubmit={handleSubmit}>
+                      <input
+                          type="text"
+                          value={text}
+                          placeholder="Enter city"
+                          onChange={handleChange}
+                          required
+                      />
+                      <button type="submit">Get Weather</button>
+                  </form>
+                  <WeatherDetails temp={temp} city={city} country={country} lat={lat} lon={lon} wind={wind} humidity={humidity} />
+              </div>
+          );
+      }
+  
+      const { createRoot } = ReactDOM;
+      const root = createRoot(document.getElementById('Weather'));
+      root.render(<WeatherApp />);
+  </script>
+  
+</body>
+</html>
